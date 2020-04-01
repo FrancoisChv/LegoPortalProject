@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "545753773762",
+    "firebase_url": "https://legoportalproject.firebaseio.com",
+    "project_id": "legoportalproject",
+    "storage_bucket": "legoportalproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545753773762:android:c516b5187f145fe9fe2d5b",
+        "android_client_info": {
+          "package_name": "com.example.legoportalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545753773762-5ppqgnidmmjn1fn43b403pgrulsat13s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.legoportalproject",
+            "certificate_hash": "2a7675f8a4a82a8dfa80a82a44390db1729227c4"
+          }
+        },
+        {
+          "client_id": "545753773762-9pa4ka8j9n13u1paip2m1id75o60sjcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjqBHMVc8M2nKw8MU7AXViZPkOci5u3vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545753773762-9pa4ka8j9n13u1paip2m1id75o60sjcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
