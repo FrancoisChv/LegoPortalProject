@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(LoginActivity.this, "Utilisateur connecté", Toast.LENGTH_SHORT).show();
-                    Intent I = new Intent(LoginActivity.this, UserActivity.class);
+                    Intent I = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(I);
                 } else {
                     Toast.makeText(LoginActivity.this, "Connectez-vous pour continuer", Toast.LENGTH_SHORT).show();
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, "Sans succès", Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(LoginActivity.this, UserActivity.class));
+                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                             }
                         }
                     });
