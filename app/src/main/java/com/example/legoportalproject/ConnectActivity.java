@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class ConnectActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
@@ -19,8 +18,7 @@ public class ConnectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         sharedpreferences = getSharedPreferences(getString(R.string.MyPREFERENCES), Context.MODE_PRIVATE);
         final Button button = (Button) findViewById(R.id.connectButton);
         final EditText macAddText = (EditText) findViewById(R.id.editMacAddText);
