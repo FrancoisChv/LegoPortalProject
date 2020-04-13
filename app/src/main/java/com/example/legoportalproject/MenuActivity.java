@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MenuActivity extends AppCompatActivity {
 
     public Button btnLancer;
@@ -21,6 +24,12 @@ public class MenuActivity extends AppCompatActivity {
         btnAjout = findViewById(R.id.ajout_btn);
         btnLog = findViewById(R.id.log_btn);
         btnParam = findViewById(R.id.param_btn);
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("/message/  ");
+
+        myRef.setValue("Hello, BITCHS!");
 
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override

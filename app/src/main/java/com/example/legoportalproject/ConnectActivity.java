@@ -41,7 +41,8 @@ public class ConnectActivity extends AppCompatActivity {
                     SharedPreferences.Editor speditor = sharedpreferences.edit();
                     speditor.putString(getString(R.string.EV3KEY), macAddText.getText().toString());
                     speditor.commit();
-                    Intent intent = new Intent(ConnectActivity.this, ConnexionActivity.class);
+                    Intent intent = new Intent(ConnectActivity.this, MainActivity
+                            .class);
                     startActivity(intent);
                 }
             }
