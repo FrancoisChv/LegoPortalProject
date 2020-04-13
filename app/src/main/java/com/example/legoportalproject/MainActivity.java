@@ -1,91 +1,103 @@
 package com.example.legoportalproject;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    public EditText emailId, passwd, accesscode;
-    Button btnSignUp;
-    TextView signIn;
-    FirebaseAuth firebaseAuth;
-    String code = "1234";
-    Vibrator vib;
+    ComBluetooth CommunicationBT;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rc);
+        CommunicationBT = new ComBluetooth();
+        // To notify user for permission to enable bt, if needed
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        emailId = findViewById(R.id.ETemail);
-        passwd = findViewById(R.id.ETpassword);
-        accesscode = findViewById(R.id.ETaccesscode);
-        btnSignUp = findViewById(R.id.btnSignUp);
-        signIn = findViewById(R.id.TVSignIn);
-        vib=(Vibrator)getSystemService(MainActivity.VIBRATOR_SERVICE);
+        builder.setMessage(R.string.bt_permission_request);
+        builder.setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                CommunicationBT.setBtPermission(true);
+                CommunicationBT.reply();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                CommunicationBT.setBtPermission(false);
+                CommunicationBT.reply();
+            }
+        });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        // Create the AlertDialog
+        AlertDialog btPermissionAlert = builder.create();
+        Context context = getApplicationContext();
+        CharSequence text1 = getString(R.string.bt_disabled);
+        CharSequence text2 = getString(R.string.bt_failed);
+        Toast btDisabledToast = Toast.makeText(context, text1, Toast.LENGTH_LONG);
+        Toast btFailedToast = Toast.makeText(context, text2, Toast.LENGTH_LONG);
+        SharedPreferences sharedpreferences = getSharedPreferences(getString(R.string.MyPREFERENCES), Context.MODE_PRIVATE);
+        if (!CommunicationBT.initBT()) {
+            // User did not enable Bluetooth
+            btDisabledToast.show();
+            Intent intent = new Intent(MainActivity.this, ConnectActivity.class);
+            startActivity(intent);
+        }
+
+        if (!CommunicationBT.connectToEV3(sharedpreferences.getString(getString(R.string.EV3KEY), ""))) {
+            //Cannot connect to given mac address, return to connect activity
+            btFailedToast.show();
+            Intent intent = new Intent(MainActivity.this, ConnectActivity.class);
+            startActivity(intent);
+        }
+
+        final Button buttonT = (Button) findViewById(R.id.buttonT);
+        buttonT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    try {
+                        CommunicationBT.writeMessage((byte) 1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        final Button buttonP = (Button) findViewById(R.id.buttonP);
+        buttonP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                vib.vibrate(10);
-                String emailID = emailId.getText().toString();
-                String paswd = passwd.getText().toString();
-                String accescd = accesscode.getText().toString();
-                if (emailID.isEmpty()) {
-                    emailId.setError("Fournissez d'abord votre e-mail !");
-                    emailId.requestFocus();
-                } else if (paswd.isEmpty()) {
-                    passwd.setError("Définir votre mot de passe !");
-                    passwd.requestFocus();
-                } else if (accescd.isEmpty()) {
-                    accesscode.setError("Code d'accès requis !");
-                    accesscode.requestFocus();
-                } else if (!(accescd.equals(code))) {
-                    accesscode.setError("Code d'accès invalide !");
-                    accesscode.requestFocus();
-                } else if (emailID.isEmpty() && paswd.isEmpty() && accescd.isEmpty() && !(accescd.equals(code))) {
-                    Toast.makeText(MainActivity.this, "Champs vides !", Toast.LENGTH_SHORT).show();
-                } else if (!(emailID.isEmpty() && paswd.isEmpty() && paswd.isEmpty()) && accescd.equals(code)) {
-                    firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(MainActivity.this, new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
+                try {
+                    CommunicationBT.writeMessage((byte) 2);
 
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this.getApplicationContext(),
-                                        "Inscription infructueuse: " + task.getException().getMessage(),
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                startActivity(new Intent(MainActivity.this, UserActivity.class));
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(MainActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        signIn.setOnClickListener(new View.OnClickListener() {
+
+        final Button buttonQuitter = (Button) findViewById(R.id.buttonQuitter);
+        buttonQuitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    CommunicationBT.writeMessage((byte) 3);
 
-                vib.vibrate(10);
-                Intent I = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(I);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

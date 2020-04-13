@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         logInpasswd = findViewById(R.id.loginpaswd);
         btnLogIn = findViewById(R.id.btnLogIn);
         signup = findViewById(R.id.TVSignIn);
-        vib = (Vibrator) getSystemService(MainActivity.VIBRATOR_SERVICE);
+        vib = (Vibrator) getSystemService(ConnexionActivity.VIBRATOR_SERVICE);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 vib.vibrate(10);
-                Intent I = new Intent(LoginActivity.this, MainActivity.class);
+                Intent I = new Intent(LoginActivity.this, ConnexionActivity.class);
                 startActivity(I);
             }
         });
