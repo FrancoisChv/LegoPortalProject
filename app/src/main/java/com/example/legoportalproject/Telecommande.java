@@ -33,9 +33,9 @@ public class Telecommande {
     public Telecommande() {
     }
 
-    public Telecommande(String nom_tel, String mac_tel) {
-        this.nom_tel = nom_tel;
+    public Telecommande(String mac_tel, String nom_tel) {
         this.mac_tel = mac_tel;
+        this.nom_tel = nom_tel;
     }
 
     @Override

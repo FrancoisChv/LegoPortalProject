@@ -60,7 +60,7 @@
             android:textSize="15dp"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:inputType="number"/>
+            android:inputType="text"/>
 
         <Button
             android:id="@+id/rmpl_auto_btn"
@@ -102,7 +102,7 @@
             android:textSize="15dp"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:inputType="number"/>
+            android:inputType="text"/>
 
     </LinearLayout>
 

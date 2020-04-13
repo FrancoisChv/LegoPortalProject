@@ -25,12 +25,6 @@ public class MenuActivity extends AppCompatActivity {
         btnLog = findViewById(R.id.log_btn);
         btnParam = findViewById(R.id.param_btn);
 
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("/message/  ");
-
-        myRef.setValue("Hello, BITCHS!");
-
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

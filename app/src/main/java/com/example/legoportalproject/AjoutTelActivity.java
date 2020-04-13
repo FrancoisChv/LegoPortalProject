@@ -13,6 +13,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AjoutTelActivity extends AppCompatActivity {
 
     private static final String REQUIRED = "Required";
@@ -64,12 +67,8 @@ public class AjoutTelActivity extends AppCompatActivity {
             return;
         }
 
-
-    }
-
-    private void writeNewTelecommande(String nom_tel, String mac_tel) {
-        Telecommande telecommande = new Telecommande(nom_tel, mac_tel);
-
-        mDatabase.child("telecommandes").child(nom_tel).setValue(mac_tel);
+        mDatabase =  FirebaseDatabase.getInstance().getReference();
+        mDatabase.child(mac).child("MAC").setValue(mac);
+        mDatabase.child(mac).child("NOM").setValue(nom);
     }
 }
