@@ -1,13 +1,17 @@
 package com.example.legoportalproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -16,8 +20,9 @@ public class MenuActivity extends AppCompatActivity {
     public Button btnLog;
     public Button btnParam;
     public Button btnDeco;
+    String mail;
     FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener  authStateListener;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,11 @@ public class MenuActivity extends AppCompatActivity {
         btnParam = findViewById(R.id.param_btn);
         btnDeco = findViewById(R.id.deco_btn);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        Intent I = getIntent();
+        if (I.hasExtra("mail")) {
+            mail = I.getStringExtra("mail");
+        }
 
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +60,9 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent I = new Intent(MenuActivity.this, AjoutTelActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mail", String.valueOf(mail));
+                I.putExtras(bundle);
                 startActivity(I);
 
             }
@@ -67,6 +80,9 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent I = new Intent(MenuActivity.this, ParametersActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mail", String.valueOf(mail));
+                I.putExtras(bundle);
                 startActivity(I);
             }
         });
