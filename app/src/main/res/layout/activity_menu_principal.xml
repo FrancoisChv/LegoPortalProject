@@ -111,4 +111,23 @@
             android:textAlignment="center" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/deco_btn"
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Deconnexion"
+            android:background="#e5e500"
+            android:textAlignment="center" />
+    </LinearLayout>
+
 </LinearLayout>

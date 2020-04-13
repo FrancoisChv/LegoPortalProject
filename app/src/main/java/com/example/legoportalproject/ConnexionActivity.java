@@ -70,7 +70,7 @@ public class ConnexionActivity extends AppCompatActivity {
                                         "Inscription infructueuse: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(ConnexionActivity.this, UserActivity.class));
+                                startActivity(new Intent(ConnexionActivity.this, MenuActivity.class));
                             }
                         }
                     });

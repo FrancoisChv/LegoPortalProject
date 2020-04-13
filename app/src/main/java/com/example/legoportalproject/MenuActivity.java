@@ -7,12 +7,17 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MenuActivity extends AppCompatActivity {
 
     public Button btnLancer;
     public Button btnAjout;
     public Button btnLog;
     public Button btnParam;
+    public Button btnDeco;
+    FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener  authStateListener;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,12 +26,23 @@ public class MenuActivity extends AppCompatActivity {
         btnAjout = findViewById(R.id.ajout_btn);
         btnLog = findViewById(R.id.log_btn);
         btnParam = findViewById(R.id.param_btn);
+        btnDeco = findViewById(R.id.deco_btn);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent I = new Intent(MenuActivity.this, ConnectActivity.class);
                 startActivity(I);
+            }
+        });
+
+        btnDeco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                finish();
             }
         });
 
