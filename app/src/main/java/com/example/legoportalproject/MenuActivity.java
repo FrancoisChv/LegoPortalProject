@@ -35,11 +35,6 @@ public class MenuActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
-        if (mail.equals("")) {
-            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-            mail = sharedPreferences.getString("1", "");
-        }
-
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
