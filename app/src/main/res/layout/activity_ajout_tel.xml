@@ -50,12 +50,13 @@
             android:textSize="20dp"
             android:gravity="center_horizontal" />
 
-        <EditText
+        <TextView
             android:id="@+id/mac_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="ici adresse MAC de la télécommande"
             android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginBottom="15dp"
             android:textColor="#000000"
             android:textSize="15dp"
             android:layout_gravity="center"
