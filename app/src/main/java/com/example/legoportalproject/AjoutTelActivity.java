@@ -1,17 +1,23 @@
 package com.example.legoportalproject;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.annotation.SuppressLint;
+import android.provider.Settings;
+import android.provider.Settings.System;
+
+import android.Manifest;
+import android.accessibilityservice.AccessibilityService;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
@@ -29,15 +38,15 @@ public class AjoutTelActivity extends AppCompatActivity {
 
 
     private static final String REQUIRED = "Required";
+    private static BluetoothAdapter BA;
 
     Button valide_btn, rmpl_auto_btn;
     EditText mac_text, nom_tel_text;
     DatabaseReference mDatabase;
     private String mail;
-    BluetoothAdapter btAdapter;
-    BluetoothDevice btDevice;
 
     FirebaseAuth firebaseAuth;
+    private String SerialNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +69,8 @@ public class AjoutTelActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                mac_text.setText(getMacAddr());
+
+                mac_text.setText(getAndroidId());
             }
         });
 
@@ -73,6 +83,13 @@ public class AjoutTelActivity extends AppCompatActivity {
                 startActivity(I);
             }
         });
+
+    }
+
+
+    public String getAndroidId() {
+
+         return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     }
 
