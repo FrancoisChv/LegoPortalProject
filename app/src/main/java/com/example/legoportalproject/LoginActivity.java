@@ -45,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     Toast.makeText(LoginActivity.this, "Utilisateur connecté", Toast.LENGTH_SHORT).show();
                     Intent I = new Intent(LoginActivity.this, MenuActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mail", String.valueOf(loginEmailId.getText()));
+                    I.putExtras(bundle);
                     startActivity(I);
                 } else {
                     Toast.makeText(LoginActivity.this, "Connectez-vous pour continuer", Toast.LENGTH_SHORT).show();
@@ -82,7 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, "Sans succès", Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                                Intent I = new Intent(LoginActivity.this, MenuActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mail", String.valueOf(loginEmailId.getText()));
+                                I.putExtras(bundle);
+                                startActivity(I);
                             }
                         }
                     });
