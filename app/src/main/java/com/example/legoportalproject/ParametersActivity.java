@@ -42,14 +42,17 @@ public class ParametersActivity extends AppCompatActivity {
             mail = sharedPreferences.getString("1", "");
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("123");
         mDatabase.addValueEventListener(new ValueEventListener() {
-
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-               // Log.d(TAG, "Value is:" + value);
+                String name = dataSnapshot.child("MAC").getValue().toString();
+                String tel = dataSnapshot.child("NOM").getValue().toString();
+                String maill = dataSnapshot.child("MAIL").getValue().toString();
+
+                Mac1.setText(name);
+                Mac2.setText(maill);
+                Mac3.setText(tel);
             }
 
             @Override

@@ -39,6 +39,11 @@ public class MenuActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
+        if (mail.equals("")) {
+            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+            mail = sharedPreferences.getString("1", "");
+        }
+
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +64,10 @@ public class MenuActivity extends AppCompatActivity {
         btnAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("1", mail);
+                editor.apply();
                 Intent I = new Intent(MenuActivity.this, AjoutTelActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mail", String.valueOf(mail));
