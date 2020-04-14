@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         logInpasswd = findViewById(R.id.loginpaswd);
         btnLogIn = findViewById(R.id.btnLogIn);
         signup = findViewById(R.id.TVSignIn);
-        vib = (Vibrator) getSystemService(MainActivity.VIBRATOR_SERVICE);
+        vib = (Vibrator) getSystemService(ConnexionActivity.VIBRATOR_SERVICE);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -44,7 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(LoginActivity.this, "Utilisateur connecté", Toast.LENGTH_SHORT).show();
-                    Intent I = new Intent(LoginActivity.this, UserActivity.class);
+                    Intent I = new Intent(LoginActivity.this, MenuActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mail", String.valueOf(loginEmailId.getText()));
+                    I.putExtras(bundle);
                     startActivity(I);
                 } else {
                     Toast.makeText(LoginActivity.this, "Connectez-vous pour continuer", Toast.LENGTH_SHORT).show();
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 vib.vibrate(10);
-                Intent I = new Intent(LoginActivity.this, MainActivity.class);
+                Intent I = new Intent(LoginActivity.this, ConnexionActivity.class);
                 startActivity(I);
             }
         });
@@ -82,7 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(LoginActivity.this, "Sans succès", Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(LoginActivity.this, UserActivity.class));
+                                Intent I = new Intent(LoginActivity.this, MenuActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mail", String.valueOf(loginEmailId.getText()));
+                                I.putExtras(bundle);
+                                startActivity(I);
                             }
                         }
                     });

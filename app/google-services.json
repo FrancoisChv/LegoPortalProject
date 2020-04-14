@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "545753773762-iogvnhv621aapui77ane6fojhocvnu5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.legoportalproject",
+            "certificate_hash": "7464726fa46d1d479868a1298e68f9bc7a880f5c"
+          }
+        },
+        {
           "client_id": "545753773762-5ppqgnidmmjn1fn43b403pgrulsat13s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
