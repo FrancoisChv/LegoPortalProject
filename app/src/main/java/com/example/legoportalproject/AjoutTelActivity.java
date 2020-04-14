@@ -41,8 +41,6 @@ public class AjoutTelActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
-        mac_text.setText(mail);
-
         valide_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -72,11 +70,13 @@ public class AjoutTelActivity extends AppCompatActivity {
         }
 
 
-        // Telecommande tel = new Telecommande(mac, nom);
-        mDatabase =  FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(mac).child("MAC").setValue(mac);
+        Telecommande tel = new Telecommande(mac, nom, mail);
+        mDatabase =  FirebaseDatabase.getInstance().getReference().child("ListTelecommandes");
+        mDatabase.push().setValue(tel);
+
+       /* mDatabase.child(mac).child("MAC").setValue(mac);
         mDatabase.child(mac).child("NOM").setValue(nom);
-        mDatabase.child(mac).child("MAIL").setValue(mail);
+        mDatabase.child(mac).child("MAIL").setValue(mail);*/
 
 
 

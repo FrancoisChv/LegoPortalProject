@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +21,7 @@ public class ParametersActivity extends AppCompatActivity {
     public String mail;
     TextView Mac1, Mac2, Mac3, Tel1, Tel2, Tel3;
     DatabaseReference mDatabase;
+    private Integer nb = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +44,36 @@ public class ParametersActivity extends AppCompatActivity {
             mail = sharedPreferences.getString("1", "");
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("123");
+        mDatabase = FirebaseDatabase.getInstance().getReference("ListTelecommandes");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("MAC").getValue().toString();
-                String tel = dataSnapshot.child("NOM").getValue().toString();
-                String maill = dataSnapshot.child("MAIL").getValue().toString();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (ds.child("user_tel").getValue().equals(mail)) {
+                        nb = nb+ 1;
+                        if (nb == 1) {
+                            Mac1.setText(ds.child("nom_tel").getValue(String.class));
+                            Tel1.setText(ds.child("mac_tel").getValue(String.class));
+                        }
+                        if (nb == 2) {
+                            Mac2.setText(ds.child("nom_tel").getValue(String.class));
+                            Tel2.setText(ds.child("mac_tel").getValue(String.class));
+                        }
+                        if (nb == 3) {
+                            Mac3.setText(ds.child("nom_tel").getValue(String.class));
+                            Tel3.setText(ds.child("mac_tel").getValue(String.class));
+                        }
 
-                Mac1.setText(name);
-                Mac2.setText(maill);
-                Mac3.setText(tel);
+
+                    }
+                }
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("tag", "Failed to read value.", error.toException());
             }
         });
     }
