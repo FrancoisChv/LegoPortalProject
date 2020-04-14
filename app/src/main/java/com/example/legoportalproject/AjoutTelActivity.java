@@ -2,8 +2,12 @@ package com.example.legoportalproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,8 +25,6 @@ public class AjoutTelActivity extends AppCompatActivity {
     EditText mac_text, nom_tel_text;
     DatabaseReference mDatabase;
     private String mail;
-    private Boolean temp;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,17 @@ public class AjoutTelActivity extends AppCompatActivity {
         if (I.hasExtra("mail")) {
             mail = I.getStringExtra("mail");
         }
+
+        rmpl_auto_btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo info = manager.getConnectionInfo();
+                @SuppressLint("HardwareIds") String address = info.getMacAddress();
+                mac_text.setText(address);
+            }
+        });
 
         valide_btn.setOnClickListener(new View.OnClickListener() {
 
