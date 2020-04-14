@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.annotation.SuppressLint;
 import android.provider.Settings;
 import android.provider.Settings.System;
 
@@ -22,6 +23,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -41,13 +43,14 @@ public class AjoutTelActivity extends AppCompatActivity {
     private static BluetoothAdapter BA;
 
     Button valide_btn, rmpl_auto_btn;
-    EditText mac_text, nom_tel_text;
+    EditText nom_tel_text;
+    TextView mac_text;
     DatabaseReference mDatabase;
     private String mail;
 
     FirebaseAuth firebaseAuth;
     private String SerialNumber;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
