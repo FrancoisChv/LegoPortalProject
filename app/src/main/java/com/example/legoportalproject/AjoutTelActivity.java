@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -21,8 +20,8 @@ public class AjoutTelActivity extends AppCompatActivity {
     Button valide_btn, rmpl_auto_btn;
     EditText mac_text, nom_tel_text;
     DatabaseReference mDatabase;
-    public String mail;
-    // ...
+    private String mail;
+    private Boolean temp;
 
 
     @Override
@@ -37,18 +36,12 @@ public class AjoutTelActivity extends AppCompatActivity {
         valide_btn = findViewById(R.id.valide_btn);
         rmpl_auto_btn = findViewById(R.id.rmpl_auto_btn);
 
-
-
-
         Intent I = getIntent();
         if (I.hasExtra("mail")) {
             mail = I.getStringExtra("mail");
         }
 
-        if (mail.equals("")){
-            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-            mail = sharedPreferences.getString("1", "");
-        }
+        mac_text.setText(mail);
 
         valide_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -78,11 +71,8 @@ public class AjoutTelActivity extends AppCompatActivity {
             return;
         }
 
+
         // Telecommande tel = new Telecommande(mac, nom);
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("1", mail);
-        editor.apply();
         mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.child(mac).child("MAC").setValue(mac);
         mDatabase.child(mac).child("NOM").setValue(nom);
