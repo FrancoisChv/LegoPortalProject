@@ -3,21 +3,30 @@ package com.example.legoportalproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
+
 public class AjoutTelActivity extends AppCompatActivity {
+
 
     private static final String REQUIRED = "Required";
 
@@ -25,6 +34,10 @@ public class AjoutTelActivity extends AppCompatActivity {
     EditText mac_text, nom_tel_text;
     DatabaseReference mDatabase;
     private String mail;
+    BluetoothAdapter btAdapter;
+    BluetoothDevice btDevice;
+
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +60,7 @@ public class AjoutTelActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                WifiInfo info = manager.getConnectionInfo();
-                @SuppressLint("HardwareIds") String address = info.getMacAddress();
-                mac_text.setText(address);
+                mac_text.setText(getMacAddr());
             }
         });
 
@@ -63,12 +73,42 @@ public class AjoutTelActivity extends AppCompatActivity {
                 startActivity(I);
             }
         });
+
     }
+
+    public static String getMacAddr() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "02:00:00:00:00:00";
+    }
+
 
     private void submitTelecommande() {
 
         final String nom = nom_tel_text.getText().toString();
         final String mac = mac_text.getText().toString();
+
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // nom requis
         if (TextUtils.isEmpty(nom)) {
@@ -82,17 +122,13 @@ public class AjoutTelActivity extends AppCompatActivity {
             return;
         }
 
-
-        Telecommande tel = new Telecommande(mac, nom, mail);
-        mDatabase =  FirebaseDatabase.getInstance().getReference().child("ListTelecommandes");
+        Telecommande tel = new Telecommande(nom, mac);
+        mDatabase =  FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.push().setValue(tel);
 
        /* mDatabase.child(mac).child("MAC").setValue(mac);
         mDatabase.child(mac).child("NOM").setValue(nom);
         mDatabase.child(mac).child("MAIL").setValue(mail);*/
-
-
-
 
     }
 
