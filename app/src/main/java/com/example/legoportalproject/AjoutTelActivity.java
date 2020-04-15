@@ -111,7 +111,7 @@ public class AjoutTelActivity extends AppCompatActivity {
                 if (canAdd.getText().toString().equals("3")) {
                     Toast.makeText(AjoutTelActivity.this, "Vous ne pouvez ajouter d'autres télécommandes", Toast.LENGTH_SHORT).show();
                 } else {
-                      submitTelecommande();
+                    submitTelecommande();
                     Intent I = new Intent(AjoutTelActivity.this, MenuActivity.class);
                     startActivity(I);
                 }
