@@ -53,7 +53,7 @@ public class ParametersActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -115,7 +115,7 @@ public class ParametersActivity extends AppCompatActivity {
 
     public void showData() {
         nb = 0;
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mDatabase2 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase2.addValueEventListener(new ValueEventListener() {
@@ -124,16 +124,16 @@ public class ParametersActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     nb = nb+ 1;
                     if (nb == 1) {
-                        Mac1.setText(ds.child("mac_tel").getValue(String.class));
-                        Tel1.setText(ds.child("nom_tel").getValue(String.class));
+                        Mac1.setText(ds.child("nom_tel").getValue(String.class));
+                        Tel1.setText(ds.child("mac_tel").getValue(String.class));
                     }
                     if (nb == 2) {
-                        Mac2.setText(ds.child("mac_tel").getValue(String.class));
-                        Tel2.setText(ds.child("nom_tel").getValue(String.class));
+                        Mac2.setText(ds.child("nom_tel").getValue(String.class));
+                        Tel2.setText(ds.child("mac_tel").getValue(String.class));
                     }
                     if (nb == 3) {
-                        Mac3.setText(ds.child("mac_tel").getValue(String.class));
-                        Tel3.setText(ds.child("nom_tel").getValue(String.class));
+                        Mac3.setText(ds.child("nom_tel").getValue(String.class));
+                        Tel3.setText(ds.child("mac_tel").getValue(String.class));
                     }
                 }
 
@@ -141,14 +141,14 @@ public class ParametersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-// Failed to read value
+                // Failed to read value
                 Log.w("tag", "Failed to read value.", error.toException());
             }
         });
     }
     public void deleteData(final Integer a){
         nb =0;
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase3 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase3.addValueEventListener(new ValueEventListener() {
             @Override
@@ -164,7 +164,7 @@ public class ParametersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-// Failed to read value
+                // Failed to read value
                 Log.w("tag", "Failed to read value.", error.toException());
             }
         });
