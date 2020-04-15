@@ -51,7 +51,7 @@ public class AjoutTelActivity extends AppCompatActivity {
 
     Button valide_btn, rmpl_auto_btn;
     EditText nom_tel_text;
-    TextView mac_text;
+    TextView mac_text, canAdd;
     DatabaseReference mDatabase;
     private String mail;
 
@@ -66,11 +66,33 @@ public class AjoutTelActivity extends AppCompatActivity {
         nom_tel_text = findViewById(R.id.nom_tel_txt);
         valide_btn = findViewById(R.id.valide_btn);
         rmpl_auto_btn = findViewById(R.id.rmpl_auto_btn);
+        canAdd = findViewById(R.id.canAdd_txt);
+        canAdd.setVisibility(View.INVISIBLE);
 
         Intent I = getIntent();
         if (I.hasExtra("mail")) {
             mail = I.getStringExtra("mail");
         }
+
+
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Integer result = 0;
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    result = result + 1;
+                }
+                canAdd.setText(result.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("tag", "Failed to read value.", error.toException());
+            }
+        });
 
         rmpl_auto_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -85,14 +107,19 @@ public class AjoutTelActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                submitTelecommande();
-                Intent I = new Intent(AjoutTelActivity.this, MenuActivity.class);
-                startActivity(I);
+
+                if (canAdd.getText().toString().equals("3")) {
+                    Toast.makeText(AjoutTelActivity.this, "Vous ne pouvez ajouter d'autres télécommandes", Toast.LENGTH_SHORT).show();
+                } else {
+                      submitTelecommande();
+                    Intent I = new Intent(AjoutTelActivity.this, MenuActivity.class);
+                    startActivity(I);
+                }
+
             }
         });
 
     }
-
 
 
 
@@ -151,10 +178,6 @@ public class AjoutTelActivity extends AppCompatActivity {
         Telecommande tel = new Telecommande(nom, mac);
         mDatabase =  FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.push().setValue(tel);
-
-       /* mDatabase.child(mac).child("MAC").setValue(mac);
-        mDatabase.child(mac).child("NOM").setValue(nom);
-        mDatabase.child(mac).child("MAIL").setValue(mail);*/
 
     }
 

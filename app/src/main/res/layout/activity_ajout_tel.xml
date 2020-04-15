@@ -124,6 +124,18 @@
             android:text="Valider la nouvelle télécommande"
             android:background="#000000"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/canAdd_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text=""
+            android:gravity="center_horizontal" />
+
     </LinearLayout>
 
 </LinearLayout>

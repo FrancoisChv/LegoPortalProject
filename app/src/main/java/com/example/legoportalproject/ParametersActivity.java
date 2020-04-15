@@ -53,16 +53,24 @@ public class ParametersActivity extends AppCompatActivity {
 
         String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                macPortal.setText(dataSnapshot.getValue(String.class));
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        macPortal.setText();
+            }
+        });
 
         modifMacPortal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String mac = macPortal.getText().toString();
                 mDatabase.setValue(mac);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
                 startActivity(I);
             }
         });
