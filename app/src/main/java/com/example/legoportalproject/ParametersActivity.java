@@ -4,15 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 public class ParametersActivity extends AppCompatActivity {
     public String mail;
     TextView Mac1, Mac2, Mac3, Tel1, Tel2, Tel3;
-    Button delete1, delete2, delete3;
+    EditText macPortal;
+    Button delete1, delete2, delete3, modifMacPortal;
     DatabaseReference mDatabase;
     static Integer nb = 0;
 
@@ -40,22 +39,34 @@ public class ParametersActivity extends AppCompatActivity {
         Tel2 = findViewById(R.id.tel2);
         Tel3 = findViewById(R.id.tel3);
 
+        macPortal = findViewById(R.id.mac_portal);
+
         delete1 = findViewById(R.id.delete_btn1);
         delete2 = findViewById(R.id.delete_btn2);
         delete3 = findViewById(R.id.delete_btn3);
+        modifMacPortal = findViewById(R.id.modif_mac_btn);
 
         Intent I = getIntent();
         if (I.hasExtra("mail")) {
             mail = I.getStringExtra("mail");
         }
 
-        if (mail.equals("")){
-            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-            mail = sharedPreferences.getString("1", "");
-        }
-
         String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
+
+
+        macPortal.setText();
+
+        modifMacPortal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String mac = macPortal.getText().toString();
+                mDatabase.setValue(mac);
+                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
+                startActivity(I);
+            }
+        });
+
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

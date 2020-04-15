@@ -51,15 +51,16 @@
             android:gravity="center_horizontal" />
 
         <EditText
+            android:id="@+id/mac_portal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:hint="b7:c9:44:9a:8a:15"
+            android:hint="02:00:00:00:00"
             android:fontFamily="sans-serif-smallcaps"
             android:textColor="#000000"
             android:textSize="25dp"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:inputType="number"/>
+            android:inputType="text"/>
         <Button
             android:id="@+id/modif_mac_btn"
             android:layout_width="200dp"
