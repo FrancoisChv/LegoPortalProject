@@ -24,6 +24,8 @@ public class ParametersActivity extends AppCompatActivity {
     EditText macPortal;
     Button delete1, delete2, delete3, modifMacPortal;
     DatabaseReference mDatabase;
+    DatabaseReference mDatabase2;
+    DatabaseReference mDatabase3;
     static Integer nb = 0;
 
     @Override
@@ -75,8 +77,48 @@ public class ParametersActivity extends AppCompatActivity {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        showData();
+
+
+        delete1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                deleteData(1);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
+                startActivity(I);
+            }
+        });
+
+        delete2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                deleteData(2);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
+                startActivity(I);
+            }
+        });
+
+        delete3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                deleteData(3);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
+                startActivity(I);
+            }
+        });
+
+
+    }
+
+    public void showData() {
+        nb = 0;
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabase2 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -103,45 +145,12 @@ public class ParametersActivity extends AppCompatActivity {
                 Log.w("tag", "Failed to read value.", error.toException());
             }
         });
-
-        delete1.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                deleteData(1);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
-                startActivity(I);
-            }
-        });
-
-        delete2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                deleteData(2);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
-                startActivity(I);
-            }
-        });
-
-        delete3.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                deleteData(3);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
-                startActivity(I);
-            }
-        });
-
-
     }
-
     public void deleteData(final Integer a){
         nb =0;
         String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabase3 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
