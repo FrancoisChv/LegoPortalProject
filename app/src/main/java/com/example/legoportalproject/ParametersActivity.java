@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,12 +45,12 @@ public class ParametersActivity extends AppCompatActivity {
             mail = sharedPreferences.getString("1", "");
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("ListTelecommandes");
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (ds.child("user_tel").getValue().equals(mail)) {
                         nb = nb+ 1;
                         if (nb == 1) {
                             Mac1.setText(ds.child("nom_tel").getValue(String.class));
@@ -63,9 +64,6 @@ public class ParametersActivity extends AppCompatActivity {
                             Mac3.setText(ds.child("nom_tel").getValue(String.class));
                             Tel3.setText(ds.child("mac_tel").getValue(String.class));
                         }
-
-
-                    }
                 }
 
             }

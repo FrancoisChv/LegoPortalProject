@@ -33,6 +33,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,6 +48,9 @@ public class AjoutTelActivity extends AppCompatActivity {
     TextView mac_text;
     DatabaseReference mDatabase;
     private String mail;
+    ArrayList<String> ListUser = new ArrayList<String>();
+
+
 
     FirebaseAuth firebaseAuth;
     private String SerialNumber;
@@ -145,6 +149,7 @@ public class AjoutTelActivity extends AppCompatActivity {
         Telecommande tel = new Telecommande(nom, mac);
         mDatabase =  FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.push().setValue(tel);
+        ListUser.add("idUser");
 
        /* mDatabase.child(mac).child("MAC").setValue(mac);
         mDatabase.child(mac).child("NOM").setValue(nom);
