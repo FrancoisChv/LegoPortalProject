@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,10 +32,16 @@ public class ParametersActivity extends AppCompatActivity {
     public String mail;
     TextView Mac1, Mac2, Mac3, Tel1, Tel2, Tel3;
     EditText macPortal;
-    Button delete1, delete2, delete3, modifMacPortal, supprimer_compte;
+    Button delete1, delete2, delete3, modifMacPortal, delete_user;
+
     DatabaseReference mDatabase;
     DatabaseReference mDatabase2;
     DatabaseReference mDatabase3;
+    Task<Void> mDatabase4;
+
+    FirebaseUser mFirebaseUser;
+    FirebaseAuth mFirebaseAuth;
+
     static Integer nb = 0;
 
     @Override
@@ -53,7 +63,7 @@ public class ParametersActivity extends AppCompatActivity {
         delete2 = findViewById(R.id.delete_btn2);
         delete3 = findViewById(R.id.delete_btn3);
         modifMacPortal = findViewById(R.id.modif_mac_btn);
-        supprimer_compte = modifMacPortal = findViewById(R.id.modif_mac_btn);
+        delete_user = findViewById(R.id.delete_user_btn);
 
         Mac1.setVisibility(View.INVISIBLE);
         Mac2.setVisibility(View.INVISIBLE);
@@ -64,6 +74,9 @@ public class ParametersActivity extends AppCompatActivity {
         delete1.setVisibility(View.INVISIBLE);
         delete2.setVisibility(View.INVISIBLE);
         delete3.setVisibility(View.INVISIBLE);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         Intent I = getIntent();
         if (I.hasExtra("mail")) {
@@ -141,19 +154,48 @@ public class ParametersActivity extends AppCompatActivity {
             }
         });
 
-        delete3.setOnClickListener(new View.OnClickListener() {
+        delete_user.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                supprimerCompte();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ParametersActivity.this);
+                dialog.setTitle("Are you sure ?");
+                dialog.setMessage("Deleting this account wil result in completely removing your account from the system.");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        mDatabase4 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).removeValue();
+                        mFirebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()) {
+                                    Toast.makeText(ParametersActivity.this, "Account Deleted", Toast.LENGTH_LONG).show();
+                                    Intent I = new Intent(ParametersActivity.this, LoginActivity.class);
+                                    I.addFlags(I.FLAG_ACTIVITY_CLEAR_TOP);
+                                    I.addFlags(I.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(I);
+                                } else {
+                                    Toast.makeText(ParametersActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
             }
         });
 
 
     }
 
-    private void supprimerCompte() {
-    }
 
     public boolean validMacAdd(String macAdd) {
        return macAdd.length() == 17;
@@ -224,6 +266,5 @@ public class ParametersActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
