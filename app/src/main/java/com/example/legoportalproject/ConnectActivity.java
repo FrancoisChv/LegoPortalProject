@@ -60,8 +60,6 @@ public class ConnectActivity extends AppCompatActivity {
 
         showData();
 
-        IdTelText.setText(getAndroidId());
-
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!validMacAdd(macAddText.getText().toString())){
@@ -109,6 +107,7 @@ public class ConnectActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     if (ds.child("mac_tel").getValue().equals(idTel)) {
                         nameTelText.setText(ds.child("nom_tel").getValue(String.class));
+                        IdTelText.setText(ds.child("mac_tel").getValue(String.class));
                     }
                 }
             }
