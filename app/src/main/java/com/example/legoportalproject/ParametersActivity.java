@@ -24,6 +24,8 @@ public class ParametersActivity extends AppCompatActivity {
     EditText macPortal;
     Button delete1, delete2, delete3, modifMacPortal;
     DatabaseReference mDatabase;
+    DatabaseReference mDatabase2;
+    DatabaseReference mDatabase3;
     static Integer nb = 0;
 
     @Override
@@ -51,7 +53,7 @@ public class ParametersActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
-        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -75,41 +77,15 @@ public class ParametersActivity extends AppCompatActivity {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    nb = nb+ 1;
-                    if (nb == 1) {
-                        Mac1.setText(ds.child("nom_tel").getValue(String.class));
-                        Tel1.setText(ds.child("mac_tel").getValue(String.class));
-                    }
-                    if (nb == 2) {
-                        Mac2.setText(ds.child("nom_tel").getValue(String.class));
-                        Tel2.setText(ds.child("mac_tel").getValue(String.class));
-                    }
-                    if (nb == 3) {
-                        Mac3.setText(ds.child("nom_tel").getValue(String.class));
-                        Tel3.setText(ds.child("mac_tel").getValue(String.class));
-                    }
-                }
+        showData();
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("tag", "Failed to read value.", error.toException());
-            }
-        });
 
         delete1.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 deleteData(1);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
                 startActivity(I);
             }
         });
@@ -119,7 +95,7 @@ public class ParametersActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deleteData(2);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
                 startActivity(I);
             }
         });
@@ -129,7 +105,7 @@ public class ParametersActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deleteData(3);
-                Intent I = new Intent(ParametersActivity.this, ParametersActivity.class);
+                Intent I = new Intent(ParametersActivity.this, MenuActivity.class);
                 startActivity(I);
             }
         });
@@ -137,11 +113,44 @@ public class ParametersActivity extends AppCompatActivity {
 
     }
 
+    public void showData() {
+        nb = 0;
+        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabase2 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    nb = nb+ 1;
+                    if (nb == 1) {
+                        Mac1.setText(ds.child("mac_tel").getValue(String.class));
+                        Tel1.setText(ds.child("nom_tel").getValue(String.class));
+                    }
+                    if (nb == 2) {
+                        Mac2.setText(ds.child("mac_tel").getValue(String.class));
+                        Tel2.setText(ds.child("nom_tel").getValue(String.class));
+                    }
+                    if (nb == 3) {
+                        Mac3.setText(ds.child("mac_tel").getValue(String.class));
+                        Tel3.setText(ds.child("nom_tel").getValue(String.class));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+// Failed to read value
+                Log.w("tag", "Failed to read value.", error.toException());
+            }
+        });
+    }
     public void deleteData(final Integer a){
         nb =0;
-        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mDatabase3 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -155,7 +164,7 @@ public class ParametersActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
+// Failed to read value
                 Log.w("tag", "Failed to read value.", error.toException());
             }
         });
