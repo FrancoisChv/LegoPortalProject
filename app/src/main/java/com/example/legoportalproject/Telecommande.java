@@ -38,7 +38,6 @@ public class Telecommande  {
     public Telecommande(String nom_tel, String mac_tel) {
         this.nom_tel = nom_tel;
         this.mac_tel = mac_tel;
-        /* this.user_tel = user_tel; */
     }
 
     @Override
@@ -46,7 +45,6 @@ public class Telecommande  {
         return "Telecommande{" +
                 "nom_tel='" + nom_tel + '\'' +
                 ", mac_tel='" + mac_tel + '\'' +
-               /* ", user_tel='" + user_tel + '\'' + */
-                '}';
+        '}';
     }
 }

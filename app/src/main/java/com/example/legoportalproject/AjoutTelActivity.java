@@ -45,7 +45,7 @@ public class AjoutTelActivity extends AppCompatActivity {
         valide_btn = findViewById(R.id.valide_btn);
         rmpl_auto_btn = findViewById(R.id.rmpl_auto_btn);
         canAdd = findViewById(R.id.canAdd_txt);
-// canAdd.setVisibility(View.INVISIBLE);
+        // canAdd.setVisibility(View.INVISIBLE);
 
         Intent I = getIntent();
         if (I.hasExtra("mail")) {
@@ -53,7 +53,7 @@ public class AjoutTelActivity extends AppCompatActivity {
         }
 
 
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,7 +74,7 @@ public class AjoutTelActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-// Failed to read value
+                // Failed to read value
                 Log.w("tag", "Failed to read value.", error.toException());
             }
         });
@@ -84,7 +84,7 @@ public class AjoutTelActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -103,13 +103,13 @@ public class AjoutTelActivity extends AppCompatActivity {
 
                         }
 
-                        canAdd.setText(result.toString() + ' ' + present.toString().toUpperCase());
+                        canAdd.setText(result.toString() + ' ' +  present.toString().toUpperCase());
 
                     }
 
                     @Override
                     public void onCancelled(DatabaseError error) {
-// Failed to read value
+                        // Failed to read value
                         Log.w("tag", "Failed to read value.", error.toException());
                     }
                 });
@@ -158,22 +158,22 @@ public class AjoutTelActivity extends AppCompatActivity {
         final String nom = nom_tel_text.getText().toString().toUpperCase();
         final String mac = mac_text.getText().toString().toUpperCase();
 
-        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-// nom requis
+        // nom requis
         if (TextUtils.isEmpty(nom)) {
             nom_tel_text.setError(REQUIRED);
             return;
         }
 
-// mac requis
+        // mac requis
         if (TextUtils.isEmpty(mac)) {
             mac_text.setError(REQUIRED);
             return;
         }
 
         Telecommande tel = new Telecommande(nom, mac);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
+        mDatabase =  FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.push().setValue(tel);
 
     }
