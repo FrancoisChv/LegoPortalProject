@@ -33,6 +33,8 @@ public class AjoutTelActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
     private String mail;
 
+    String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,39 +54,11 @@ public class AjoutTelActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
-
-        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Integer result = 0;
-                Boolean present = true;
-                final String nom = nom_tel_text.getText().toString().toUpperCase();
-                final String mac = mac_text.getText().toString().toUpperCase();
-
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    result = result + 1;
-
-                }
-
-                canAdd.setText(result.toString());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("tag", "Failed to read value.", error.toException());
-            }
-        });
-
         rmpl_auto_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
-                String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -128,14 +102,7 @@ public class AjoutTelActivity extends AppCompatActivity {
                     Toast.makeText(AjoutTelActivity.this, "Vous ne pouvez ajouter d'autres télécommandes", Toast.LENGTH_SHORT).show();
                 } else {
 
-
-                    if(canAdd.getText().toString().contains("TRUE")){
-                        submitTelecommande();
-                        Intent I = new Intent(AjoutTelActivity.this, MenuActivity.class);
-                        startActivity(I);
-                    } else if (canAdd.getText().toString().contains("FALSE")){
-                        Toast.makeText(AjoutTelActivity.this, "Cette télécommande existe déjà", Toast.LENGTH_SHORT).show();
-                    }
+                    verification();
 
                 }
 
@@ -144,21 +111,9 @@ public class AjoutTelActivity extends AppCompatActivity {
 
     }
 
-
-
-    public String getAndroidId() {
-
-        return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
-    }
-
-
-    private void submitTelecommande() {
-
-        final String nom = nom_tel_text.getText().toString().toUpperCase();
-        final String mac = mac_text.getText().toString().toUpperCase();
-
-        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private void verification() {
+        String nom = nom_tel_text.getText().toString().toUpperCase();
+        String mac = mac_text.getText().toString().toUpperCase();
 
         // nom requis
         if (TextUtils.isEmpty(nom)) {
@@ -172,10 +127,39 @@ public class AjoutTelActivity extends AppCompatActivity {
             return;
         }
 
+        if(canAdd.getText().toString().contains("TRUE")){
+
+                submitTelecommande();
+                Intent I = new Intent(AjoutTelActivity.this, MenuActivity.class);
+                startActivity(I);
+
+        } else if (canAdd.getText().toString().contains("FALSE")){
+            Toast.makeText(AjoutTelActivity.this, "Cette télécommande existe déjà", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public String getAndroidId() {
+
+        return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+    }
+
+
+    private void submitTelecommande() {
+
+        String nom = nom_tel_text.getText().toString().toUpperCase();
+        String mac = mac_text.getText().toString().toUpperCase();
+
+        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         Telecommande tel = new Telecommande(nom, mac);
         mDatabase =  FirebaseDatabase.getInstance().getReference().child("Télécommandes").child(idUser).child("ListeTélécommandes");
         mDatabase.push().setValue(tel);
 
     }
+
+
 
 }
