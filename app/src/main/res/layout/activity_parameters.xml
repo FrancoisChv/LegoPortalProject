@@ -106,7 +106,7 @@
             android:textColor="#000000"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Télécommande Steven"
+            android:text="Télécommande 1"
             android:gravity="center_horizontal" />
 
         <TextView
@@ -118,10 +118,11 @@
             android:textColor="#7F7F7F"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="b1:84:3a:14:be:8f"
+            android:text="0000000000"
             android:gravity="center_horizontal" />
 
         <Button
+            android:id="@+id/delete_btn1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -149,7 +150,7 @@
             android:textColor="#000000"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Télécommande Patricia"
+            android:text="Télécommande 2"
             android:gravity="center_horizontal" />
 
         <TextView
@@ -161,10 +162,11 @@
             android:textColor="#7F7F7F"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="74:28:37:f3:21:3d"
+            android:text="0000000000"
             android:gravity="center_horizontal" />
 
         <Button
+            android:id="@+id/delete_btn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -191,7 +193,7 @@
             android:textSize="15dp"
             android:textColor="#000000"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Télécommande Etienne"
+            android:text="Télécommande 3"
             />
 
         <TextView
@@ -203,10 +205,11 @@
             android:textColor="#7F7F7F"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="74:3e:17:60:d9:81"
+            android:text="0000000000"
             android:gravity="center_horizontal" />
 
         <Button
+            android:id="@+id/delete_btn3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
