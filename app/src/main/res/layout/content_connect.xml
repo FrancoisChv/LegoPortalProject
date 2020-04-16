@@ -61,7 +61,7 @@
             android:layout_gravity="center"
             android:textColor="#000000"
             android:gravity="center"
-            android:text="Chargement en cours ..."
+            android:text=""
             android:textSize="25dp"
             android:id="@+id/MacAddPortalText"
             android:layout_weight="1" />
@@ -103,7 +103,7 @@
             android:layout_gravity="center"
             android:textColor="#000000"
             android:gravity="center"
-            android:text="Chargement en cours ..."
+            android:text=""
             android:textSize="25dp"
             android:id="@+id/NametelText"
             android:layout_weight="1" />
@@ -145,7 +145,7 @@
             android:layout_gravity="center"
             android:textColor="#000000"
             android:gravity="center"
-            android:text="Chargement en cours ..."
+            android:text=""
             android:textSize="25dp"
             android:id="@+id/IDtelText"
             android:layout_weight="1" />

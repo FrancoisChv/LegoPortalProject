@@ -49,6 +49,11 @@ public class ConnectActivity extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(String.class).equals("") || dataSnapshot.getValue(String.class) == null){
+                    macAddText.setText("Aucune Adresse");
+                    button.setVisibility(View.INVISIBLE);
+                    return;
+                }
                 macAddText.setText(dataSnapshot.getValue(String.class));
             }
 
@@ -57,6 +62,8 @@ public class ConnectActivity extends AppCompatActivity {
 
             }
         });
+
+        button.setVisibility(View.INVISIBLE);
 
         showData();
 
@@ -74,6 +81,7 @@ public class ConnectActivity extends AppCompatActivity {
                     // Create the AlertDialog
                     AlertDialog macDialog = builder.create();
                     macDialog.show();
+
                 } else {
                     SharedPreferences.Editor speditor = sharedpreferences.edit();
                     speditor.putString(getString(R.string.EV3KEY), macAddText.getText().toString());
@@ -93,7 +101,7 @@ public class ConnectActivity extends AppCompatActivity {
     }
 
     private boolean validMacAdd(String macAdd) {
-        return macAdd.length() == 17;
+        return macAdd.length() == 0 || macAdd.length() == 17;
     }
 
     public void showData() {
@@ -108,8 +116,15 @@ public class ConnectActivity extends AppCompatActivity {
                     if (ds.child("mac_tel").getValue().equals(idTel.toUpperCase())) {
                         nameTelText.setText(ds.child("nom_tel").getValue(String.class));
                         IdTelText.setText(ds.child("mac_tel").getValue(String.class));
+                        if (!macAddText.getText().toString().equals("Aucune Adresse")){
+                            button.setVisibility(View.VISIBLE);
+                            return;
+                        }
                     }
                 }
+
+                nameTelText.setText("Votre Télécommande \n n'est pas enregistré");
+
             }
 
             @Override
