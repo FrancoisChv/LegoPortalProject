@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     ComBluetooth CommunicationBT;
+    TextView msg;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rc);
+        msg = findViewById(R.id.writeMsg);
         CommunicationBT = new ComBluetooth();
         // To notify user for permission to enable bt, if needed
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -98,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                Toast.makeText(MainActivity.this, "Déconnexion de la télécommande au portail.", Toast.LENGTH_SHORT).show();
+                Intent I = new Intent(MainActivity.this, MenuActivity.class);
+                I.addFlags(I.FLAG_ACTIVITY_CLEAR_TOP);
+                I.addFlags(I.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(I);
             }
         });
     }

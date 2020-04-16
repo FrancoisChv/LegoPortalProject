@@ -44,7 +44,7 @@ public class ConnectActivity extends AppCompatActivity {
         nameTelText = findViewById(R.id.NametelText);
         IdTelText = findViewById(R.id.IDtelText);
 
-        String idUser  = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -63,15 +63,15 @@ public class ConnectActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!validMacAdd(macAddText.getText().toString())){
-                    // Notify user to enter mac address of brick
+// Notify user to enter mac address of brick
                     AlertDialog.Builder builder = new AlertDialog.Builder(ConnectActivity.this);
                     builder.setMessage(R.string.enter_macadd);
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // User clicked OK button
+// User clicked OK button
                         }
                     });
-                    // Create the AlertDialog
+// Create the AlertDialog
                     AlertDialog macDialog = builder.create();
                     macDialog.show();
                 } else {
