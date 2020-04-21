@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuActivity extends AppCompatActivity {
 
+
     public Button btnLancer;
     public Button btnAjout;
     public Button btnLog;
@@ -23,6 +24,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+        //Lien entre nos boutons et le layout
         btnLancer = findViewById(R.id.lance_btn);
         btnAjout = findViewById(R.id.ajout_btn);
         btnLog = findViewById(R.id.log_btn);
@@ -35,23 +37,28 @@ public class MenuActivity extends AppCompatActivity {
             mail = I.getStringExtra("mail");
         }
 
+        //Lorsque l'utilisateur appuie sur le bouton lancer télécommande
         btnLancer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //On lance l'activité ConnectActivity
                 Intent I = new Intent(MenuActivity.this, ConnectActivity.class);
                 startActivity(I);
             }
         });
 
+        //Lorsque l'utilisateur appuie sur le bouton déconnexion
         btnDeco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //On déconnecte l'utilisateur de l'application et on le redirige vers l'activité LoginActivity
                 firebaseAuth.signOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
             }
         });
 
+        //Lorsque l'utilisateur appuie sur le bouton Ajouter télécommande
         btnAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +66,7 @@ public class MenuActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("1", mail);
                 editor.apply();
+                //On lance l'activité AjoutTelActivity
                 Intent I = new Intent(MenuActivity.this, AjoutTelActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mail", String.valueOf(mail));
@@ -68,6 +76,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //Lorsque l'utilisateur appuie sur le bouton des logs
         btnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,9 +85,11 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        //Lorsque l'utilisateur appuie sur le bouton Paramètres
         btnParam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //On lance l'activité Parameters Activity
                 Intent I = new Intent(MenuActivity.this, ParametersActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("mail", String.valueOf(mail));

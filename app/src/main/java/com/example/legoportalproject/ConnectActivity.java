@@ -39,22 +39,28 @@ public class ConnectActivity extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(getString(R.string.MyPREFERENCES), Context.MODE_PRIVATE);
 
+/* Association des ID Layout */
         button = findViewById(R.id.connectButton);
         macAddText = findViewById(R.id.MacAddPortalText);
         nameTelText = findViewById(R.id.NametelText);
         IdTelText = findViewById(R.id.IDtelText);
 
+/* Récupération id utilisateur courrant et rechercher dans la base de donnée avec le chemin de rechercher */
         String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("MacPortail");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+/* On vérifie si il existe une valeur enregistrer du MacPortail */
                 if(dataSnapshot.getValue(String.class).equals("") || dataSnapshot.getValue(String.class) == null){
-                    macAddText.setText("Aucune Adresse");
+/* Si pas d'adresse, on rend le bouton de connexion invisible, et on affiche Aucune Adresse à l'utilisateur */
+                            macAddText.setText("Aucune Adresse");
                     button.setVisibility(View.INVISIBLE);
                     return;
                 }
-                macAddText.setText(dataSnapshot.getValue(String.class));
+
+/* Si y'a une adresse, on affiche sa valeur à l'utilisateur */
+                        macAddText.setText(dataSnapshot.getValue(String.class));
             }
 
             @Override
@@ -63,12 +69,14 @@ public class ConnectActivity extends AppCompatActivity {
             }
         });
 
-        button.setVisibility(View.INVISIBLE);
+/* On rend le bouton invisible de manière générale avant le 2ème traitement de la télécommande */
+                button.setVisibility(View.INVISIBLE);
 
         showData();
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+/* Vérifie la validité pour entamer une connexion bluetooth en appelant ensuite la class MainActivity si c'est bon */
                 if(!validMacAdd(macAddText.getText().toString())){
 // Notify user to enter mac address of brick
                     AlertDialog.Builder builder = new AlertDialog.Builder(ConnectActivity.this);
@@ -96,6 +104,7 @@ public class ConnectActivity extends AppCompatActivity {
 
     public String getAndroidId() {
 
+/* Retourne notre device_id */
         return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     }
@@ -112,10 +121,17 @@ public class ConnectActivity extends AppCompatActivity {
         mDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+/* Parcours de la bdd */
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (ds.child("device_id_tel").getValue().equals(idTel.toUpperCase())) {
+/* Si la bdd contient une télécommande avec un device_id identique à la
+télécommande que l'utilisateur est entrain d'utiliser alors on va cherche le nom de la
+télécommande et son device_id */
+
+                    if (ds.child("device_id").getValue().equals(idTel.toUpperCase())) {
                         nameTelText.setText(ds.child("nom_tel").getValue(String.class));
                         IdTelText.setText(ds.child("device_id_tel").getValue(String.class));
+
+/* Puis on revérifie l'existance d'une adresse mac en vérifiant le texte de la zone de saisie, s'il n'est pas égal à aucune adresse, il y'a donc une adresse mac du portail. On a donc bien une télécommande enregristée, et une adresse mac du portail, on autorise la connexion bluetooth en affichant le bouton de connexion */
                         if (!macAddText.getText().toString().equals("Aucune Adresse")){
                             button.setVisibility(View.VISIBLE);
                             return;

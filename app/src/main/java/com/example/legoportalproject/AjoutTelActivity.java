@@ -95,6 +95,42 @@ public class AjoutTelActivity extends AppCompatActivity {
             }
         });
 
+        nom_tel_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mDatabase2 = FirebaseDatabase.getInstance().getReference("Télécommandes").child(idUser).child("ListeTélécommandes");
+                mDatabase2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final String nom = nom_tel_text.getText().toString().toUpperCase();
+
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            if (ds.child("nom_tel").getValue().equals(nom.trim())) {
+                                canAdd2.setText("1");
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w("tag", "Failed to read value.", error.toException());
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         rmpl_auto_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override

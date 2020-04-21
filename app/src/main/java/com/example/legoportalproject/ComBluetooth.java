@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.UUID;
 
+//Structure de la classe ComBluetooth qui sera utilisée dans l'activité MainActivity
+
 public class ComBluetooth {
     private static final String SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB";
     BluetoothAdapter localAdapter;
@@ -35,16 +37,19 @@ public class ComBluetooth {
         BluetoothDevice ev3 = localAdapter.getRemoteDevice(macAdd);
         //try to connect to the nxt
         try {
+            //Tentative de connexion à l'EV3
             socket_ev3 = ev3.createRfcommSocketToServiceRecord(UUID.fromString(SPP_UUID));
             socket_ev3.connect();
             success = true;
         } catch (IOException e) {
+            //Echec de la connexion à l'EV3
             Log.d("Bluetooth","Err: Device not found or cannot connect " + macAdd);
             success=false;
         }
         return success;
     }
 
+    //Méthode d'envoi de message à la brique EV3
     public void writeMessage(byte msg) throws InterruptedException {
         BluetoothSocket connSock;
         connSock= socket_ev3;

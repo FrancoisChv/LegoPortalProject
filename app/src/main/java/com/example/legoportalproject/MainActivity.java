@@ -67,40 +67,51 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final Button buttonT = (Button) findViewById(R.id.buttonT);
+        //Lorsque l'utilisateur appuie sur le bouton "Ouverture Totale"
         buttonT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     try {
+                        //Envoi d'un bit que la brique EV3 va récupérer
                         CommunicationBT.writeMessage((byte) 1);
                     } catch (InterruptedException e) {
+                        //Envoi échoué
                         e.printStackTrace();
                     }
                 }
             });
 
         final Button buttonP = (Button) findViewById(R.id.buttonP);
+        //Lorsque l'utilisateur appuie sur le bouton "Ouverture Partielle"
         buttonP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try {
+                    //Envoi d'un bit que la brique EV3 va récupérer
                     CommunicationBT.writeMessage((byte) 2);
                 } catch (InterruptedException e) {
+                    //Envoi échoué
                     e.printStackTrace();
                 }
             }
         });
 
         final Button buttonQuitter = (Button) findViewById(R.id.buttonQuitter);
+        //Lorsque l'utilisateur appuie sur le bouton "Quitter"
         buttonQuitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    //Envoi d'un bit que la brique EV3 va récupérer
                     CommunicationBT.writeMessage((byte) 3);
                 } catch (InterruptedException e) {
+                    //Envoi échoué
                     e.printStackTrace();
                 }
+                //Message pour avertir que la déconnexion au portail est faite
                 Toast.makeText(MainActivity.this, "Déconnexion de la télécommande au portail.", Toast.LENGTH_SHORT).show();
+                //Retour de l'utilisateur sur l'activité MenuActivity
                 Intent I = new Intent(MainActivity.this, MenuActivity.class);
                 I.addFlags(I.FLAG_ACTIVITY_CLEAR_TOP);
                 I.addFlags(I.FLAG_ACTIVITY_CLEAR_TASK);

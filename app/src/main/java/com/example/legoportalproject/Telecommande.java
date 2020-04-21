@@ -1,9 +1,12 @@
 package com.example.legoportalproject;
 
+//Cette classe permet de définir la structure d'un objet télécommande que l'on ajoutera par
+// la suite dans la base de données
+
 public class Telecommande  {
 
-    private String nom_tel;
-    private String device_id_tel;
+    private String nom_tel; //Nom de la télécommande
+    private String device_id_tel; //Devide ID de l'appareil de l'utilisateur de la télécommande
     private String user_tel;
 
     public String getNom_tel() {
