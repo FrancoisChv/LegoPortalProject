@@ -127,7 +127,7 @@ public class ConnectActivity extends AppCompatActivity {
 télécommande que l'utilisateur est entrain d'utiliser alors on va cherche le nom de la
 télécommande et son device_id */
 
-                    if (ds.child("device_id").getValue().equals(idTel.toUpperCase())) {
+                    if (ds.child("device_id_tel").getValue().equals(idTel.toUpperCase())) {
                         nameTelText.setText(ds.child("nom_tel").getValue(String.class));
                         IdTelText.setText(ds.child("device_id_tel").getValue(String.class));
 
