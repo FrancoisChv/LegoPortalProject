@@ -58,7 +58,7 @@ public class AjoutTelActivity extends AppCompatActivity {
         if (I.hasExtra("mail")) {
             mail = I.getStringExtra("mail");
         }
-
+        
         nom_tel_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,7 +112,7 @@ public class AjoutTelActivity extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             result = result + 1;
 
-                            if (ds.child("mac_tel").getValue().equals(mac) || ds.child("nom_tel").getValue().equals(nom) ) {
+                            if (ds.child("device_id_tel").getValue().equals(mac) || ds.child("nom_tel").getValue().equals(nom) ) {
                                 present = false;
                             }
 

@@ -4,8 +4,10 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.UUID;
 
@@ -59,5 +61,32 @@ public class ComBluetooth {
         }else{
             //Error
         }
+    }
+
+    public void run(TextView msgEtat, ComBluetooth comBluetooth) {
+
+            try {
+                int msg = 0;
+                InputStreamReader in = new InputStreamReader(comBluetooth.socket_ev3.getInputStream());
+                while (true) {
+                    if (in.ready()) {
+                        msg = in.read();
+                        switch (msg) {
+                            case 1:
+                                msgEtat.setText("En fermeture");
+                                break;
+                            case 2:
+                                msgEtat.setText("En attente de réponse de l'EV3");
+                                break;
+                            default:
+                                msgEtat.setText("En fermeture ?");
+                                break;
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
 }

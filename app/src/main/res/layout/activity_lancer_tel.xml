@@ -76,7 +76,7 @@
             android:textColor="#000000"
             android:textAlignment="center"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Adresse MAC de la télécommande\n"
+            android:text="Device ID de la télécommande\n"
             android:gravity="center_horizontal" />
 
         <TextView

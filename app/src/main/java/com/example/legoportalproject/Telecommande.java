@@ -3,7 +3,7 @@ package com.example.legoportalproject;
 public class Telecommande  {
 
     private String nom_tel;
-    private String mac_tel;
+    private String device_id_tel;
     private String user_tel;
 
     public String getNom_tel() {
@@ -14,12 +14,12 @@ public class Telecommande  {
         this.nom_tel = nom_tel;
     }
 
-    public String getMac_tel() {
-        return mac_tel;
+    public String getdevice_id_tel() {
+        return device_id_tel;
     }
 
-    public void setMac_tel(String mac_tel) {
-        this.mac_tel = mac_tel;
+    public void setMac_tel(String device_id_tel) {
+        this.device_id_tel = device_id_tel;
     }
 
     /*
@@ -35,16 +35,16 @@ public class Telecommande  {
     public Telecommande() {
     }
 
-    public Telecommande(String nom_tel, String mac_tel) {
+    public Telecommande(String nom_tel, String device_id_tel) {
         this.nom_tel = nom_tel;
-        this.mac_tel = mac_tel;
+        this.device_id_tel = device_id_tel;
     }
 
     @Override
     public String toString() {
         return "Telecommande{" +
                 "nom_tel='" + nom_tel + '\'' +
-                ", mac_tel='" + mac_tel + '\'' +
+                ", device_id_tel='" + device_id_tel + '\'' +
         '}';
     }
 }

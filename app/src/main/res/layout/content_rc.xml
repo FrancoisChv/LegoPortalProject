@@ -84,14 +84,15 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/msgEtat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
+            android:theme="@style/PrimaryButton"
             android:textAlignment="center"
-            android:id="@+id/writeMsg"
-            android:text="hey"
-            android:gravity="center_horizontal" />
+            android:textColor="@color/colorPrimaryDark"
+            android:text=" " />
 
     </LinearLayout>
 

@@ -124,7 +124,7 @@
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Identifiant de la télécommande"
+            android:text="Device ID de la télécommande"
             android:textSize="25dp" />
 
     </LinearLayout>

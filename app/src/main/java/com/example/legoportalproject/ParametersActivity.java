@@ -212,21 +212,21 @@ public class ParametersActivity extends AppCompatActivity {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     nb = nb+ 1;
                     if (nb == 1) {
-                        Mac1.setText(ds.child("mac_tel").getValue(String.class));
+                        Mac1.setText(ds.child("device_id_tel").getValue(String.class));
                         Tel1.setText(ds.child("nom_tel").getValue(String.class));
                         Mac1.setVisibility(View.VISIBLE);
                         Tel1.setVisibility(View.VISIBLE);
                         delete1.setVisibility(View.VISIBLE);
                     }
                     if (nb == 2) {
-                        Mac2.setText(ds.child("mac_tel").getValue(String.class));
+                        Mac2.setText(ds.child("device_id_tel").getValue(String.class));
                         Tel2.setText(ds.child("nom_tel").getValue(String.class));
                         Mac2.setVisibility(View.VISIBLE);
                         Tel2.setVisibility(View.VISIBLE);
                         delete2.setVisibility(View.VISIBLE);
                     }
                     if (nb == 3) {
-                        Mac3.setText(ds.child("mac_tel").getValue(String.class));
+                        Mac3.setText(ds.child("device_id_tel").getValue(String.class));
                         Tel3.setText(ds.child("nom_tel").getValue(String.class));
                         Mac3.setVisibility(View.VISIBLE);
                         Tel3.setVisibility(View.VISIBLE);

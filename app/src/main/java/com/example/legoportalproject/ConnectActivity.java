@@ -113,9 +113,9 @@ public class ConnectActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    if (ds.child("mac_tel").getValue().equals(idTel.toUpperCase())) {
+                    if (ds.child("device_id_tel").getValue().equals(idTel.toUpperCase())) {
                         nameTelText.setText(ds.child("nom_tel").getValue(String.class));
-                        IdTelText.setText(ds.child("mac_tel").getValue(String.class));
+                        IdTelText.setText(ds.child("device_id_tel").getValue(String.class));
                         if (!macAddText.getText().toString().equals("Aucune Adresse")){
                             button.setVisibility(View.VISIBLE);
                             return;

@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,16 +16,17 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     ComBluetooth CommunicationBT;
-    TextView msg;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rc);
-        msg = findViewById(R.id.writeMsg);
+
         CommunicationBT = new ComBluetooth();
-        // To notify user for permission to enable bt, if needed
+
+        // To notify user for    permission to enable bt, if needed
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setMessage(R.string.bt_permission_request);
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         CharSequence text2 = getString(R.string.bt_failed);
         Toast btDisabledToast = Toast.makeText(context, text1, Toast.LENGTH_LONG);
         Toast btFailedToast = Toast.makeText(context, text2, Toast.LENGTH_LONG);
+
         SharedPreferences sharedpreferences = getSharedPreferences(getString(R.string.MyPREFERENCES), Context.MODE_PRIVATE);
         if (!CommunicationBT.initBT()) {
             // User did not enable Bluetooth
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     CommunicationBT.writeMessage((byte) 2);
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     CommunicationBT.writeMessage((byte) 3);
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -109,5 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(I);
             }
         });
+
     }
 }
